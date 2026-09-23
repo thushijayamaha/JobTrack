@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import { Navbar } from '../../../layout/navbar/navbar';
 import { Sidebar } from '../../../layout/sidebar/sidebar';
 
-import { ApplicationService } from '../../../core/services/application';
+import { ApplicationQuery, ApplicationService } from '../../../core/services/application';
 import { Application } from '../../../core/models/application.model';
 
 @Component({
@@ -34,9 +34,15 @@ export class ApplicationList implements OnInit {
 
   loading: boolean = false;
 
+  currentPage = 1;
+  lastPage = 1;
+  totalApplications = 0;
+  perPage = 10;
+  sortField = 'application_date';
+  sortDirection: 'asc' | 'desc' = 'desc';
+
   constructor(
-    private applicationService: ApplicationService,
-    private changeDetectorRef: ChangeDetectorRef
+    private applicationService: ApplicationService
   ) {}
 
   ngOnInit(): void {
@@ -50,13 +56,15 @@ export class ApplicationList implements OnInit {
     this.loading = true;
 
     this.applicationService
-      .getApplications()
+      .getApplications(this.query)
       .subscribe({
         next: (applications) => {
 
-  this.applications = applications;
-
-  this.applyFilters();
+  this.applications = applications.applications;
+  this.filteredApplications = applications.applications;
+  this.currentPage = applications.currentPage;
+  this.lastPage = applications.lastPage;
+  this.totalApplications = applications.total;
 
   this.loading = false;
 },
@@ -74,44 +82,51 @@ export class ApplicationList implements OnInit {
   }
 
 
-  // Search + filters
+  get query(): ApplicationQuery {
+    return {
+      search: this.searchText.trim() || undefined,
+      status: this.selectedStatus === 'All Status' ? undefined : this.selectedStatus,
+      job_type: this.selectedJobType === 'All Job Types' ? undefined : this.selectedJobType,
+      sort: this.sortField,
+      direction: this.sortDirection,
+      page: this.currentPage,
+      per_page: this.perPage
+    };
+  }
+
   applyFilters(): void {
+    this.currentPage = 1;
+    this.loadApplications();
+  }
 
-    this.filteredApplications =
-      this.applications.filter((application) => {
+  sortBy(field: string): void {
+    if (this.sortField === field) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortDirection = 'asc';
+    }
+    this.currentPage = 1;
+    this.loadApplications();
+  }
 
-        const search =
-          this.searchText
-            .toLowerCase()
-            .trim();
+  goToPage(page: number): void {
+    if (page < 1 || page > this.lastPage || page === this.currentPage) {
+      return;
+    }
+    this.currentPage = page;
+    this.loadApplications();
+  }
 
-        const matchesSearch =
-          application.companyName
-            .toLowerCase()
-            .includes(search)
-          ||
-          application.jobTitle
-            .toLowerCase()
-            .includes(search);
-
-        const matchesStatus =
-          this.selectedStatus === 'All Status'
-          ||
-          application.status === this.selectedStatus;
-
-        const matchesJobType =
-          this.selectedJobType === 'All Job Types'
-          ||
-          application.jobType === this.selectedJobType;
-
-        return (
-          matchesSearch &&
-          matchesStatus &&
-          matchesJobType
-        );
-      });
-
-    this.changeDetectorRef.detectChanges();
+  exportCsv(): void {
+    this.applicationService.exportCsv().subscribe(blob => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'jobtrack-applications.csv';
+      link.click();
+      URL.revokeObjectURL(url);
+    });
   }
 
 

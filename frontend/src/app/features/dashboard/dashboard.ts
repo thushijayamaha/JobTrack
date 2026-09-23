@@ -96,7 +96,7 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
     this.errorMessage = '';
 
     this.applicationService
-      .getApplications()
+      .getApplications({ per_page: 100 })
       .pipe(
         timeout(10000),
         finalize(() => this.loading = false)
@@ -110,7 +110,7 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
             applications
           );
 
-          this.applications = applications;
+          this.applications = applications.applications;
 
           this.totalApplications =
             this.applications.length;

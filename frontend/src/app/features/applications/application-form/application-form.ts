@@ -35,6 +35,7 @@ export class ApplicationForm implements OnInit {
 
   loading = false;
   submitting = false;
+  resumeFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -54,6 +55,35 @@ export class ApplicationForm implements OnInit {
       location: [''],
       notes: ['']
     });
+  }
+
+  onResumeSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.resumeFile = input.files?.[0] ?? null;
+  }
+
+  private finishSave(application: Application, message: string): void {
+    const upload = this.resumeFile && application.id
+      ? this.applicationService.uploadResume(application.id, this.resumeFile)
+      : null;
+
+    if (upload) {
+      upload.subscribe({
+        next: () => this.completeSave(message),
+        error: () => {
+          alert('Application saved, but the resume upload failed.');
+          this.completeSave(message);
+        }
+      });
+    } else {
+      this.completeSave(message);
+    }
+  }
+
+  private completeSave(message: string): void {
+    alert(message);
+    this.submitting = false;
+    this.router.navigate(['/applications']);
   }
 
   ngOnInit(): void {
@@ -190,18 +220,7 @@ export class ApplicationForm implements OnInit {
           application
         )
         .subscribe({
-          next: () => {
-
-            alert(
-              'Application updated successfully!'
-            );
-
-            this.submitting = false;
-
-            this.router.navigate([
-              '/applications'
-            ]);
-          },
+          next: (savedApplication) => this.finishSave(savedApplication, 'Application updated successfully!'),
 
           error: (error) => {
 
@@ -223,18 +242,7 @@ export class ApplicationForm implements OnInit {
       this.applicationService
         .addApplication(application)
         .subscribe({
-          next: () => {
-
-            alert(
-              'Application added successfully!'
-            );
-
-            this.submitting = false;
-
-            this.router.navigate([
-              '/applications'
-            ]);
-          },
+          next: (savedApplication) => this.finishSave(savedApplication, 'Application added successfully!'),
 
           error: (error) => {
 

@@ -17,6 +17,7 @@ class Application extends Model
         'salary',
         'location',
         'notes',
+        'resume_path',
     ];
 
     protected $casts = [
@@ -34,5 +35,10 @@ class Application extends Model
     public function interviews()
     {
         return $this->hasMany(Interview::class);
+    }
+
+    public function statusHistory()
+    {
+        return $this->hasMany(ApplicationStatusHistory::class)->latest();
     }
 }

@@ -107,6 +107,39 @@
 
       </section>
 
+      @if (application.resumePath) {
+        <section class="details-card">
+          <div class="section-header">
+            <div>
+              <h3><i class="bi bi-file-earmark-person"></i> Resume</h3>
+              <p>Stored with this application</p>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-primary" (click)="downloadResume()">
+            <i class="bi bi-download me-2"></i> Download Resume
+          </button>
+        </section>
+      }
+
+      @if (application.statusHistory?.length) {
+        <section class="details-card">
+          <div class="section-header">
+            <div>
+              <h3><i class="bi bi-clock-history"></i> Status History</h3>
+              <p>Changes recorded for this application</p>
+            </div>
+          </div>
+          <ul class="list-group list-group-flush">
+            @for (entry of application.statusHistory; track entry.id) {
+              <li class="list-group-item px-0">
+                <strong>{{ entry.from_status || 'Created' }} -> {{ entry.to_status }}</strong>
+                <small class="d-block text-muted">{{ entry.created_at | date:'medium' }}</small>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
 
       <!-- STATUS TIMELINE -->
       <section class="details-card timeline-card">

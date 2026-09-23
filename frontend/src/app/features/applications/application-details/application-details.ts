@@ -5,6 +5,7 @@ import {
   RouterLink
 } from '@angular/router';
 
+import { DatePipe } from '@angular/common';
 import { Navbar } from '../../../layout/navbar/navbar';
 import { Sidebar } from '../../../layout/sidebar/sidebar';
 
@@ -17,7 +18,8 @@ import { Application } from '../../../core/models/application.model';
   imports: [
     Navbar,
     Sidebar,
-    RouterLink
+    RouterLink,
+    DatePipe
   ],
   templateUrl: './application-details.html',
   styleUrl: './application-details.scss'
@@ -160,5 +162,17 @@ export class ApplicationDetails implements OnInit {
     }
 
     return 'pending';
+  }
+
+  downloadResume(): void {
+    if (!this.application) return;
+    this.applicationService.downloadResume(this.application.id).subscribe(blob => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'resume';
+      link.click();
+      URL.revokeObjectURL(url);
+    });
   }
 }

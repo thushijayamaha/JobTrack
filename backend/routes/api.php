@@ -25,6 +25,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('auth/account', [AuthController::class, 'deleteAccount']);
 
     // Applications
+    Route::get('applications/export/csv', [ApplicationController::class, 'export']);
+    Route::post('applications/{application}/resume', [ApplicationController::class, 'uploadResume']);
+    Route::get('applications/{application}/resume', [ApplicationController::class, 'downloadResume']);
+    Route::get('applications/{application}/history', [ApplicationController::class, 'history']);
     Route::apiResource('applications', ApplicationController::class);
 
     // Settings

@@ -126,11 +126,11 @@ export class InterviewForm implements OnInit {
 
   loadApplications(): void {
 
-    this.applicationService.getApplications().subscribe({
+    this.applicationService.getApplications({ per_page: 100 }).subscribe({
 
       next: (applications) => {
 
-        this.applications = applications;
+        this.applications = applications.applications;
 
         this.changeDetectorRef.detectChanges();
       },

@@ -15,11 +15,36 @@ interface ApplicationApiData {
   salary?: string;
   location?: string;
   notes?: string;
+  resume_path?: string;
+  status_history?: Application['statusHistory'];
 }
 
 interface ApplicationListResponse {
   success: boolean;
   data: ApplicationApiData[];
+  meta: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
+}
+
+export interface ApplicationQuery {
+  search?: string;
+  status?: string;
+  job_type?: string;
+  sort?: string;
+  direction?: 'asc' | 'desc';
+  page?: number;
+  per_page?: number;
+}
+
+export interface ApplicationPage {
+  applications: Application[];
+  currentPage: number;
+  lastPage: number;
+  total: number;
 }
 
 interface ApplicationResponse {
@@ -54,23 +79,26 @@ export class ApplicationService {
       jobUrl: data.job_url,
       salary: data.salary,
       location: data.location,
-      notes: data.notes
+      notes: data.notes,
+      resumePath: data.resume_path,
+      statusHistory: data.status_history
     };
   }
 
-  getApplications(): Observable<Application[]> {
+  getApplications(query: ApplicationQuery = {}): Observable<ApplicationPage> {
 
     return this.http
       .get<ApplicationListResponse>(
-        this.apiUrl
+        this.apiUrl,
+        { params: query as Record<string, string | number> }
       )
       .pipe(
-        map(response =>
-          response.data.map(
-            application =>
-              this.mapApplication(application)
-          )
-        )
+        map(response => ({
+          applications: response.data.map(application => this.mapApplication(application)),
+          currentPage: response.meta.current_page,
+          lastPage: response.meta.last_page,
+          total: response.meta.total
+        }))
       );
   }
 
@@ -183,5 +211,21 @@ export class ApplicationService {
     return this.http.delete(
       `${this.apiUrl}/${id}`
     );
+  }
+
+  uploadResume(id: number, file: File): Observable<Application> {
+    const formData = new FormData();
+    formData.append('resume', file);
+
+    return this.http.post<ApplicationResponse>(`${this.apiUrl}/${id}/resume`, formData)
+      .pipe(map(response => this.mapApplication(response.data)));
+  }
+
+  downloadResume(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${id}/resume`, { responseType: 'blob' });
+  }
+
+  exportCsv(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/export/csv`, { responseType: 'blob' });
   }
 }

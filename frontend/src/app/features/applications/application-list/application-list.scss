@@ -21,8 +21,9 @@
 .filter-card,
 .applications-card {
 	background: #ffffff;
-	border-radius: 14px;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+	border: 1px solid #e7eaf0;
+	border-radius: 12px;
+	box-shadow: 0 6px 20px rgba(31, 41, 55, 0.05);
 }
 
 .filter-card {
@@ -67,6 +68,49 @@
 	min-width: 720px;
 }
 
+.table-sort {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-weight: 600;
+	text-transform: inherit;
+	letter-spacing: inherit;
+	}
+
+.table-sort:hover {
+	color: #0d6efd;
+}
+
+.applications-card thead {
+	background: #f8faff;
+}
+
+.applications-card tbody tr {
+	border-top: 1px solid #f0f2f5;
+	transition: background-color 160ms ease;
+}
+
+.applications-card tbody tr:hover {
+	background: #fbfcff;
+}
+
+.loading-state,
+.empty-state {
+	padding: 56px 20px;
+	text-align: center;
+	color: #6c757d;
+}
+
+.loading-state .spinner-border,
+.empty-state i {
+	color: #0d6efd;
+}
+
 .action-btn {
 	display: inline-flex;
 	width: 34px;
@@ -103,6 +147,11 @@
 
 	.page-header > a {
 		width: 100%;
+	}
+
+	.page-header > button {
+		width: 100%;
+		margin-left: 0 !important;
 	}
 }
 

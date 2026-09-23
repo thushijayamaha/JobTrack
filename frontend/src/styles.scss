@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 body {
+	margin: 0;
+	background: #f7f8fc;
+	color: #1f2937;
 	transition: background-color 180ms ease, color 180ms ease;
 }
 
@@ -35,6 +38,37 @@ input,
 select,
 textarea {
 	max-width: 100%;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+	transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+:focus-visible {
+	outline: 3px solid rgba(13, 110, 253, 0.25);
+	outline-offset: 2px;
+}
+
+.btn {
+	border-radius: 8px;
+	font-weight: 600;
+}
+
+.form-control,
+.form-select {
+	min-height: 42px;
+	border-color: #dfe3ea;
+	border-radius: 8px;
+}
+
+.form-control:focus,
+.form-select:focus {
+	border-color: #86b7fe;
+	box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
 }
 
 @media (max-width: 576px) {

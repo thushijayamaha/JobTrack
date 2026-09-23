@@ -29,7 +29,7 @@ describe('Settings', () => {
 
     component.applyDarkMode();
 
-    expect(document.body.classList.contains('theme-dark')).toBeTrue();
+    expect(document.body.classList.contains('theme-dark')).toBe(true);
     expect(localStorage.getItem('jobtrack_theme')).toBe('dark');
   });
 });

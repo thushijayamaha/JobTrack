@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { InterviewForm } from './interview-form';
 
@@ -9,6 +10,7 @@ describe('InterviewForm', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [InterviewForm],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InterviewForm);

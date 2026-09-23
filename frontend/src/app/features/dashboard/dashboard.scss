@@ -11,8 +11,7 @@
 .dashboard-content {
   flex: 1;
   padding: 32px;
-  margin-left: 250px;
-  max-width: calc(100% - 250px);
+  min-width: 0;
 }
 
 

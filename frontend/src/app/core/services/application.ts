@@ -17,6 +17,7 @@ interface ApplicationApiData {
   notes?: string;
   resume_path?: string;
   status_history?: Application['statusHistory'];
+  interviews?: Application['interviews'];
 }
 
 interface ApplicationListResponse {
@@ -81,7 +82,8 @@ export class ApplicationService {
       location: data.location,
       notes: data.notes,
       resumePath: data.resume_path,
-      statusHistory: data.status_history
+      statusHistory: data.status_history,
+      interviews: data.interviews
     };
   }
 

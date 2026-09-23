@@ -78,7 +78,11 @@
                 <h5>Job Application</h5>
 
                 <p>
-                  Select the job application for this interview.
+                  @if (applicationId) {
+                    This interview will be attached to the selected application.
+                  } @else {
+                    Select the job application for this interview.
+                  }
                 </p>
               </div>
 
@@ -97,6 +101,7 @@
                 class="form-select"
                 formControlName="application_id"
                 [class.is-invalid]="isInvalid('application_id')"
+                [disabled]="!!applicationId"
               >
 
                 <option value="">

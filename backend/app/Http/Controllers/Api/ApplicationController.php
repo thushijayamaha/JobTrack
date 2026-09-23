@@ -106,7 +106,7 @@ class ApplicationController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $application->load('statusHistory'),
+            'data' => $application->load(['statusHistory', 'interviews']),
         ]);
     }
 

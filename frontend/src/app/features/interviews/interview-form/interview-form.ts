@@ -47,6 +47,7 @@ export class InterviewForm implements OnInit {
   editing = false;
 
   interviewId: number | null = null;
+  applicationId: number | null = null;
 
   loading = false;
 
@@ -65,16 +66,31 @@ export class InterviewForm implements OnInit {
 
     this.createForm();
 
-    this.loadApplications();
-
     const id = this.route.snapshot.paramMap.get('id');
+    const applicationId = this.route.snapshot.paramMap.get('applicationId');
 
     if (id) {
       this.editing = true;
       this.interviewId = Number(id);
 
       this.loadInterview(this.interviewId);
+    } else if (applicationId) {
+      this.applicationId = Number(applicationId);
+      this.interviewForm.patchValue({ application_id: this.applicationId });
+      this.loadSelectedApplication(this.applicationId);
+    } else {
+      this.loadApplications();
     }
+  }
+
+  private loadSelectedApplication(id: number): void {
+    this.applicationService.getApplicationById(id).subscribe({
+      next: (application) => {
+        this.applications = [application];
+        this.changeDetectorRef.detectChanges();
+      },
+      error: () => this.router.navigate(['/applications'])
+    });
   }
 
   createForm(): void {
@@ -231,7 +247,7 @@ export class InterviewForm implements OnInit {
       id: this.interviewId || 0,
 
       application_id:
-        Number(formValue.application_id),
+        Number(formValue.application_id || this.applicationId),
 
       interview_date:
         formValue.interview_date,

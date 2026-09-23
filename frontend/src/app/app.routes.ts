@@ -79,6 +79,14 @@ export const routes: Routes = [
   },
 
   {
+    path: 'applications/view/:applicationId/interviews/add',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/interviews/interview-form/interview-form')
+        .then((m) => m.InterviewForm)
+  },
+
+  {
   path: 'profile',
   canActivate: [authGuard],
   loadComponent: () =>

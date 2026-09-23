@@ -1,3 +1,5 @@
+import { Interview } from './interview.model';
+
 export interface Application {
   id: number;
   companyName: string;
@@ -16,4 +18,5 @@ export interface Application {
     to_status: string;
     created_at: string;
   }[];
+  interviews?: Interview[];
 }

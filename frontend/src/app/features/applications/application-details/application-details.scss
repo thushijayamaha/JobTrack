@@ -1,3 +1,26 @@
+.interview-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.interview-summary:last-child {
+  border-bottom: 0;
+}
+
+.interview-summary strong,
+.interview-summary span {
+  display: block;
+}
+
+.interview-summary span {
+  margin-top: 4px;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
 .application-layout {
   display: flex;
   min-height: calc(100vh - 64px);

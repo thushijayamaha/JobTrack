@@ -48,6 +48,14 @@
           Edit Application
         </a>
 
+        <a
+          [routerLink]="['/applications/view', application.id, 'interviews', 'add']"
+          class="btn btn-outline-primary"
+        >
+          <i class="bi bi-calendar-plus me-2"></i>
+          Add Interview
+        </a>
+
       </div>
 
 
@@ -105,6 +113,29 @@
 
         </div>
 
+      </section>
+
+      <section class="details-card">
+        <div class="section-header">
+          <div>
+            <h3><i class="bi bi-calendar2-week"></i> Interviews</h3>
+            <p>Interviews attached to this application</p>
+          </div>
+        </div>
+
+        @if (application.interviews?.length) {
+          @for (interview of application.interviews; track interview.id) {
+            <div class="interview-summary">
+              <div>
+                <strong>{{ interview.interview_date }} at {{ interview.interview_time }}</strong>
+                <span>{{ interview.interview_type }} · {{ interview.status }}</span>
+              </div>
+              <a [routerLink]="['/interviews/view', interview.id]" class="btn btn-sm btn-outline-secondary">View</a>
+            </div>
+          }
+        } @else {
+          <p class="text-muted mb-0">No interviews added yet.</p>
+        }
       </section>
 
       @if (application.resumePath) {

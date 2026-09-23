@@ -1,0 +1,363 @@
+<app-navbar></app-navbar>
+
+<div class="interview-layout">
+
+  <!-- SIDEBAR -->
+  <app-sidebar></app-sidebar>
+
+  <!-- MAIN CONTENT -->
+  <main class="interview-content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+
+      <div>
+        <h2>Interview Details</h2>
+
+        <p>
+          View and manage your interview information.
+        </p>
+      </div>
+
+      <a
+        routerLink="/interviews"
+        class="btn btn-outline-secondary back-btn"
+      >
+        <i class="bi bi-arrow-left"></i>
+        Back to Interviews
+      </a>
+
+    </div>
+
+
+    <!-- LOADING -->
+    @if (loading) {
+
+      <div class="loading-card">
+
+        <div
+          class="spinner-border text-primary"
+          role="status"
+        ></div>
+
+        <p>Loading interview...</p>
+
+      </div>
+
+    }
+
+
+    <!-- INTERVIEW DETAILS -->
+    @else if (interview) {
+
+      <div class="details-card">
+
+        <!-- ============================= -->
+        <!-- CARD HEADER -->
+        <!-- ============================= -->
+
+        <div class="details-header">
+
+          <div class="company-section">
+
+            <div class="company-icon">
+              {{
+                interview.application?.company_name?.charAt(0) || '?'
+              }}
+            </div>
+
+            <div>
+
+              <h3>
+                {{
+                  interview.application?.job_title ||
+                  'Job Position'
+                }}
+              </h3>
+
+              <p>
+                {{
+                  interview.application?.company_name ||
+                  'Company'
+                }}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <span
+            class="status-badge"
+            [class]="getStatusClass(interview.status)"
+          >
+            {{ interview.status }}
+          </span>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- INTERVIEW SUMMARY -->
+        <!-- ============================= -->
+
+        <div class="summary-section">
+
+          <div class="summary-item">
+
+            <div class="summary-icon">
+              <i class="bi bi-calendar-event"></i>
+            </div>
+
+            <div>
+
+              <span>
+                Interview Date
+              </span>
+
+              <strong>
+                {{
+                  interview.interview_date
+                    | date:'EEEE, MMMM d, y'
+                }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <div class="summary-icon">
+              <i class="bi bi-clock"></i>
+            </div>
+
+            <div>
+
+              <span>
+                Interview Time
+              </span>
+
+              <strong>
+                {{
+                  formatTime(interview.interview_time)
+                }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <div class="summary-icon">
+
+              <i
+                class="bi"
+                [class]="
+                  getTypeIcon(
+                    interview.interview_type
+                  )
+                "
+              ></i>
+
+            </div>
+
+            <div>
+
+              <span>
+                Interview Type
+              </span>
+
+              <strong>
+                {{ interview.interview_type }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- INFORMATION -->
+        <!-- ============================= -->
+
+        <div class="information-section">
+
+          <h4>
+            <i class="bi bi-info-circle"></i>
+            Interview Information
+          </h4>
+
+
+          <!-- INTERVIEWER -->
+
+          <div class="info-row">
+
+            <div class="info-label">
+              <i class="bi bi-person"></i>
+              Interviewer
+            </div>
+
+            <div class="info-value">
+
+              @if (interview.interviewer_name) {
+
+                {{ interview.interviewer_name }}
+
+              }
+
+              @else {
+
+                <span class="not-provided">
+                  Not provided
+                </span>
+
+              }
+
+            </div>
+
+          </div>
+
+
+          <!-- MEETING LINK -->
+
+          <div class="info-row">
+
+            <div class="info-label">
+              <i class="bi bi-link-45deg"></i>
+              Meeting Link
+            </div>
+
+            <div class="info-value">
+
+              @if (interview.meeting_link) {
+
+                <a
+                  [href]="interview.meeting_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="meeting-link"
+                >
+                  <i class="bi bi-box-arrow-up-right"></i>
+                  Join Meeting
+                </a>
+
+              }
+
+              @else {
+
+                <span class="not-provided">
+                  No meeting link provided
+                </span>
+
+              }
+
+            </div>
+
+          </div>
+
+
+          <!-- STATUS -->
+
+          <div class="info-row">
+
+            <div class="info-label">
+              <i class="bi bi-check-circle"></i>
+              Status
+            </div>
+
+            <div class="info-value">
+
+              <span
+                class="status-badge"
+                [class]="
+                  getStatusClass(
+                    interview.status
+                  )
+                "
+              >
+                {{ interview.status }}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- NOTES -->
+        <!-- ============================= -->
+
+        <div class="notes-section">
+
+          <h4>
+            <i class="bi bi-sticky"></i>
+            Notes
+          </h4>
+
+          @if (interview.notes) {
+
+            <div class="notes-content">
+              {{ interview.notes }}
+            </div>
+
+          }
+
+          @else {
+
+            <div class="notes-empty">
+              <i class="bi bi-sticky"></i>
+
+              <span>
+                No notes have been added for this interview.
+              </span>
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- ACTIONS -->
+        <!-- ============================= -->
+
+        <div class="details-actions">
+
+          <a
+            [routerLink]="[
+              '/interviews/edit',
+              interview.id
+            ]"
+            class="btn btn-outline-primary"
+          >
+            <i class="bi bi-pencil"></i>
+            Edit Interview
+          </a>
+
+
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            (click)="deleteInterview()"
+          >
+            <i class="bi bi-trash"></i>
+            Delete Interview
+          </button>
+
+        </div>
+
+      </div>
+
+    }
+
+  </main>
+
+</div>

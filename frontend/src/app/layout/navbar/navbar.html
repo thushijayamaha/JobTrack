@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg bg-white border-bottom">
+
+  <div class="container-fluid px-4">
+
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center" href="/dashboard">
+
+      <div class="brand-icon">
+        <i class="bi bi-briefcase-fill"></i>
+      </div>
+
+      <span class="brand-name ms-2">
+        JobTrack
+      </span>
+
+    </a>
+
+
+    <!-- Right Side -->
+    <div class="d-flex align-items-center gap-3">
+
+      <!-- Notification -->
+      <button class="icon-button">
+        <i class="bi bi-bell"></i>
+        <span class="notification-dot"></span>
+      </button>
+
+
+      <!-- User Profile -->
+      <div class="user-profile">
+
+        <div class="user-avatar">
+          {{ initials }}
+        </div>
+
+        <div class="user-info d-none d-md-block">
+
+          <div class="user-name">
+            {{ user?.name || 'User' }}
+          </div>
+
+          <div class="user-role">
+            Job Seeker
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</nav>

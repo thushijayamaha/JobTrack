@@ -1,0 +1,453 @@
+<app-navbar></app-navbar>
+
+<div class="application-layout">
+
+  <!-- SIDEBAR -->
+  <app-sidebar></app-sidebar>
+
+  <!-- MAIN CONTENT -->
+  <main class="application-content">
+
+    <!-- LOADING -->
+    @if (loading) {
+      <div class="loading-container">
+        <div class="spinner-border" role="status"></div>
+        <p>Loading application...</p>
+      </div>
+    }
+
+    <!-- APPLICATION DETAILS -->
+    @if (!loading && application) {
+
+      <!-- PAGE HEADER -->
+      <div class="page-header">
+
+        <div>
+          <a
+            routerLink="/applications"
+            class="back-link"
+          >
+            <i class="bi bi-arrow-left"></i>
+            Back to Applications
+          </a>
+
+          <h2>
+            Application Details
+          </h2>
+
+          <p>
+            View information and application progress
+          </p>
+        </div>
+
+        <a
+          [routerLink]="['/applications/edit', application.id]"
+          class="btn btn-primary"
+        >
+          <i class="bi bi-pencil"></i>
+          Edit Application
+        </a>
+
+      </div>
+
+
+      <!-- APPLICATION HEADER CARD -->
+      <section class="application-header-card">
+
+        <div class="company-icon">
+          {{ application.companyName.charAt(0).toUpperCase() }}
+        </div>
+
+        <div class="application-main-info">
+
+          <h3>
+            {{ application.jobTitle }}
+          </h3>
+
+          <p class="company-name">
+            {{ application.companyName }}
+          </p>
+
+          <div class="application-meta">
+
+            <span>
+              <i class="bi bi-briefcase"></i>
+              {{ application.jobType }}
+            </span>
+
+            @if (application.location) {
+              <span>
+                <i class="bi bi-geo-alt"></i>
+                {{ application.location }}
+              </span>
+            }
+
+            <span>
+              <i class="bi bi-calendar3"></i>
+              {{ application.applicationDate }}
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="status-area">
+
+          <span
+            class="status-badge"
+            [class.status-applied]="application.status === 'Applied'"
+            [class.status-interview]="application.status === 'Interview'"
+            [class.status-selected]="application.status === 'Selected'"
+            [class.status-rejected]="application.status === 'Rejected'"
+          >
+            {{ application.status }}
+          </span>
+
+        </div>
+
+      </section>
+
+
+      <!-- STATUS TIMELINE -->
+      <section class="details-card timeline-card">
+
+        <div class="section-header">
+
+          <div>
+            <h3>
+              <i class="bi bi-diagram-3"></i>
+              Application Status
+            </h3>
+
+            <p>
+              Track the progress of your job application
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="status-timeline">
+
+          <!-- APPLIED -->
+          <div
+            class="timeline-item"
+            [class.completed]="getStatusClass('Applied').includes('completed')"
+            [class.pending]="getStatusClass('Applied').includes('pending')"
+          >
+
+            <div class="timeline-icon">
+
+              @if (getStatusClass('Applied').includes('completed')) {
+                <i class="bi bi-check-lg"></i>
+              } @else {
+                <i class="bi bi-send"></i>
+              }
+
+            </div>
+
+            <div class="timeline-content">
+
+              <h4>
+                Applied
+              </h4>
+
+              <p>
+                Application submitted successfully
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- INTERVIEW -->
+          <div
+            class="timeline-item"
+            [class.completed]="getStatusClass('Interview').includes('completed')"
+            [class.pending]="getStatusClass('Interview').includes('pending')"
+          >
+
+            <div class="timeline-icon">
+
+              @if (getStatusClass('Interview').includes('completed')) {
+                <i class="bi bi-check-lg"></i>
+              } @else {
+                <i class="bi bi-people"></i>
+              }
+
+            </div>
+
+            <div class="timeline-content">
+
+              <h4>
+                Interview
+              </h4>
+
+              <p>
+                Interview stage
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- SELECTED -->
+          <div
+            class="timeline-item"
+            [class.completed]="getStatusClass('Selected').includes('completed')"
+            [class.selected]="getStatusClass('Selected').includes('selected')"
+            [class.pending]="getStatusClass('Selected').includes('pending')"
+          >
+
+            <div class="timeline-icon">
+
+              @if (getStatusClass('Selected').includes('completed')) {
+                <i class="bi bi-check-lg"></i>
+              } @else {
+                <i class="bi bi-trophy"></i>
+              }
+
+            </div>
+
+            <div class="timeline-content">
+
+              <h4>
+                Selected
+              </h4>
+
+              <p>
+                Job offer / selection received
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- REJECTED -->
+          @if (isRejected()) {
+
+            <div
+              class="timeline-item completed rejected"
+            >
+
+              <div class="timeline-icon">
+                <i class="bi bi-x-lg"></i>
+              </div>
+
+              <div class="timeline-content">
+
+                <h4>
+                  Rejected
+                </h4>
+
+                <p>
+                  Application was not successful
+                </p>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+
+      <!-- APPLICATION INFORMATION -->
+      <section class="details-card">
+
+        <div class="section-header">
+
+          <div>
+            <h3>
+              <i class="bi bi-info-circle"></i>
+              Application Information
+            </h3>
+
+            <p>
+              Details about this job application
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="information-grid">
+
+          <div class="info-item">
+            <span class="info-label">
+              Company
+            </span>
+
+            <strong>
+              {{ application.companyName }}
+            </strong>
+          </div>
+
+
+          <div class="info-item">
+            <span class="info-label">
+              Job Title
+            </span>
+
+            <strong>
+              {{ application.jobTitle }}
+            </strong>
+          </div>
+
+
+          <div class="info-item">
+            <span class="info-label">
+              Job Type
+            </span>
+
+            <strong>
+              {{ application.jobType }}
+            </strong>
+          </div>
+
+
+          <div class="info-item">
+            <span class="info-label">
+              Application Date
+            </span>
+
+            <strong>
+              {{ application.applicationDate }}
+            </strong>
+          </div>
+
+
+          @if (application.location) {
+
+            <div class="info-item">
+
+              <span class="info-label">
+                Location
+              </span>
+
+              <strong>
+                {{ application.location }}
+              </strong>
+
+            </div>
+
+          }
+
+
+          @if (application.salary) {
+
+            <div class="info-item">
+
+              <span class="info-label">
+                Salary
+              </span>
+
+              <strong>
+                {{ application.salary }}
+              </strong>
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+
+      <!-- JOB URL -->
+      @if (application.jobUrl) {
+
+        <section class="details-card">
+
+          <div class="section-header">
+
+            <div>
+              <h3>
+                <i class="bi bi-link-45deg"></i>
+                Job Posting
+              </h3>
+
+              <p>
+                Original job advertisement
+              </p>
+            </div>
+
+          </div>
+
+          <a
+            [href]="application.jobUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="job-url"
+          >
+            <i class="bi bi-box-arrow-up-right"></i>
+            View Job Posting
+          </a>
+
+        </section>
+
+      }
+
+
+      <!-- NOTES -->
+      @if (application.notes) {
+
+        <section class="details-card">
+
+          <div class="section-header">
+
+            <div>
+              <h3>
+                <i class="bi bi-journal-text"></i>
+                Notes
+              </h3>
+
+              <p>
+                Additional information
+              </p>
+            </div>
+
+          </div>
+
+          <div class="notes-content">
+            {{ application.notes }}
+          </div>
+
+        </section>
+
+      }
+
+
+      <!-- ACTIONS -->
+      <div class="page-actions">
+
+        <a
+          routerLink="/applications"
+          class="btn btn-light"
+        >
+          <i class="bi bi-arrow-left"></i>
+          Back to Applications
+        </a>
+
+        <a
+          [routerLink]="['/applications/edit', application.id]"
+          class="btn btn-primary"
+        >
+          <i class="bi bi-pencil"></i>
+          Edit Application
+        </a>
+
+      </div>
+
+    }
+
+  </main>
+
+</div>

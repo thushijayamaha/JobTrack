@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+	transition: background-color 180ms ease, color 180ms ease;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	min-width: 320px;
+	overflow-x: hidden;
+}
+
+main,
+.dashboard-content,
+.application-content,
+.profile-content,
+.settings-content {
+	min-width: 0;
+}
+
+img,
+svg,
+video {
+	max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+	max-width: 100%;
+}
+
+@media (max-width: 576px) {
+	.row {
+		--bs-gutter-x: 1rem;
+	}
+
+	 h1,
+	 h2 {
+		font-size: clamp(1.45rem, 7vw, 2rem);
+	}
+
+	.btn {
+		white-space: normal;
+	}
+}

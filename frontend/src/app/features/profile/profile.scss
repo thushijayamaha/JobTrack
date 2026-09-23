@@ -1,0 +1,150 @@
+.profile-layout {
+  display: flex;
+  min-height: calc(100vh - 70px);
+  background: #f8f9fc;
+}
+
+.profile-content {
+  flex: 1;
+  padding: 30px;
+  overflow-x: hidden;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #0d6efd;
+  color: #ffffff;
+
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.profile-status {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 14px;
+
+  border-radius: 20px;
+
+  background: #e8f7ee;
+  color: #198754;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-info {
+  margin-top: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  margin-bottom: 20px;
+}
+
+.info-item > i {
+  font-size: 18px;
+  color: #0d6efd;
+  margin-top: 3px;
+}
+
+.info-item small {
+  display: block;
+  color: #6c757d;
+  margin-bottom: 3px;
+}
+
+.info-item p {
+  margin: 0;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.card-title-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #343a40;
+}
+
+.profile-field {
+  padding: 12px 15px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  background: #f8f9fa;
+
+  color: #495057;
+  min-height: 46px;
+
+  display: flex;
+  align-items: center;
+}
+
+.about-field {
+  min-height: 90px;
+  align-items: flex-start;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+
+  .profile-content {
+    padding: 20px;
+  }
+
+  .card-title-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-title-section .btn {
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 576px) {
+
+  .profile-content {
+    padding: 15px;
+  }
+
+  .profile-card {
+    padding: 20px;
+  }
+
+}

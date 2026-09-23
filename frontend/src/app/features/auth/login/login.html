@@ -1,0 +1,132 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <!-- Logo -->
+    <div class="text-center mb-4">
+      <div class="logo-icon">
+        <i class="bi bi-briefcase-fill"></i>
+      </div>
+
+      <h2 class="fw-bold mt-3">Welcome Back</h2>
+
+      <p class="text-muted">
+        Sign in to manage your job applications
+      </p>
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="Enter your email"
+          formControlName="email"
+        />
+
+        @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+          <div class="text-danger small mt-1">
+
+            @if (loginForm.get('email')?.errors?.['required']) {
+              <span>Email is required.</span>
+            }
+
+            @if (loginForm.get('email')?.errors?.['email']) {
+              <span>Please enter a valid email address.</span>
+            }
+
+          </div>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="password" class="form-label">
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          placeholder="Enter your password"
+          formControlName="password"
+        />
+
+        @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+          <div class="text-danger small mt-1">
+
+            @if (loginForm.get('password')?.errors?.['required']) {
+              <span>Password is required.</span>
+            }
+
+            @if (loginForm.get('password')?.errors?.['minlength']) {
+              <span>Password must be at least 6 characters.</span>
+            }
+
+          </div>
+        }
+      </div>
+
+      <!-- Remember Me & Forgot Password -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="remember"
+            formControlName="remember"
+          />
+
+          <label
+            class="form-check-label"
+            for="remember"
+          >
+            Remember me
+          </label>
+        </div>
+
+        <span class="forgot-link text-muted">
+          Forgot Password?
+        </span>
+
+      </div>
+
+      @if (errorMessage) {
+        <div class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <!-- Sign In Button -->
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+      >
+        <i class="bi bi-box-arrow-in-right me-2"></i>
+        Sign In
+      </button>
+
+    </form>
+
+    <!-- Register -->
+    <div class="text-center mt-4">
+      <span class="text-muted">
+        Don't have an account?
+      </span>
+
+      <a routerLink="/register" class="register-link ms-1">
+       Create Account
+      </a>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,481 @@
+<app-navbar></app-navbar>
+
+<div class="application-layout">
+
+  <!-- SIDEBAR -->
+  <app-sidebar></app-sidebar>
+
+
+  <!-- MAIN CONTENT -->
+  <main class="application-content">
+
+
+    <!-- ============================= -->
+    <!-- PAGE HEADER -->
+    <!-- ============================= -->
+
+    <div class="page-header">
+
+      <div>
+
+        <h2 class="fw-bold mb-1">
+          My Applications
+        </h2>
+
+        <p class="text-muted mb-0">
+          Track and manage all your job applications
+        </p>
+
+      </div>
+
+
+      <!-- ADD APPLICATION -->
+      <a
+        routerLink="/applications/add"
+        class="btn btn-primary"
+      >
+
+        <i class="bi bi-plus-lg me-2"></i>
+
+        Add Application
+
+      </a>
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- SEARCH & FILTER -->
+    <!-- ============================= -->
+
+    <div class="filter-card">
+
+      <div class="row g-3 align-items-center">
+
+
+        <!-- SEARCH -->
+        <div class="col-md-6">
+
+          <div class="search-box">
+
+            <i class="bi bi-search"></i>
+
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search company or job position..."
+              [(ngModel)]="searchText"
+              (ngModelChange)="applyFilters()"
+            />
+
+          </div>
+
+        </div>
+
+
+
+        <!-- STATUS FILTER -->
+        <div class="col-md-3">
+
+          <select
+            class="form-select"
+            [(ngModel)]="selectedStatus"
+            (ngModelChange)="applyFilters()"
+          >
+
+            <option value="All Status">
+              All Status
+            </option>
+
+            <option value="Applied">
+              Applied
+            </option>
+
+            <option value="Interview">
+              Interview
+            </option>
+
+            <option value="Selected">
+              Selected
+            </option>
+
+            <option value="Rejected">
+              Rejected
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <!-- JOB TYPE FILTER -->
+        <div class="col-md-3">
+
+          <select
+            class="form-select"
+            [(ngModel)]="selectedJobType"
+            (ngModelChange)="applyFilters()"
+          >
+
+            <option value="All Job Types">
+              All Job Types
+            </option>
+
+            <option value="Internship">
+              Internship
+            </option>
+
+            <option value="Full Time">
+              Full Time
+            </option>
+
+            <option value="Part Time">
+              Part Time
+            </option>
+
+            <option value="Contract">
+              Contract
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- APPLICATIONS CARD -->
+    <!-- ============================= -->
+
+    <div class="applications-card">
+
+
+      <!-- CARD HEADER -->
+      <div class="card-header-custom">
+
+        <div>
+
+          <h5 class="fw-bold mb-1">
+            Applications
+          </h5>
+
+          <p class="text-muted mb-0">
+            {{ filteredApplications.length }}
+            applications found
+          </p>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ============================= -->
+      <!-- APPLICATION TABLE -->
+      <!-- ============================= -->
+
+      <div class="table-responsive">
+
+        <table class="table align-middle mb-0">
+
+
+          <!-- TABLE HEADER -->
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Company
+              </th>
+
+              <th>
+                Position
+              </th>
+
+              <th>
+                Job Type
+              </th>
+
+              <th>
+                Applied Date
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th class="text-end">
+                Actions
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+
+          <!-- TABLE BODY -->
+
+          <tbody>
+
+
+            <!-- ============================= -->
+            <!-- APPLICATION ROWS -->
+            <!-- ============================= -->
+
+            @for (
+              application of filteredApplications;
+              track application.id
+            ) {
+
+              <tr>
+
+
+                <!-- COMPANY -->
+
+                <td>
+
+                  <div class="company-info">
+
+
+                    <!-- COMPANY ICON -->
+
+                    <div class="company-icon">
+
+                      <i class="bi bi-building"></i>
+
+                    </div>
+
+
+
+                    <!-- COMPANY DETAILS -->
+
+                    <div>
+
+                      <div class="company-name">
+
+                        {{ application.companyName }}
+
+                      </div>
+
+
+                      <small class="text-muted">
+
+                        {{ application.location || 'Not specified' }}
+
+                      </small>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+
+
+                <!-- POSITION -->
+
+                <td>
+
+                  {{ application.jobTitle }}
+
+                </td>
+
+
+
+                <!-- JOB TYPE -->
+
+                <td>
+
+                  <span class="job-type">
+
+                    {{ application.jobType }}
+
+                  </span>
+
+                </td>
+
+
+
+                <!-- APPLICATION DATE -->
+
+                <td>
+
+                  {{ application.applicationDate }}
+
+                </td>
+
+
+
+                <!-- STATUS -->
+
+                <td>
+
+                  <span
+                    class="status-badge"
+
+                    [class.status-applied]="
+                      application.status === 'Applied'
+                    "
+
+                    [class.status-interview]="
+                      application.status === 'Interview'
+                    "
+
+                    [class.status-selected]="
+                      application.status === 'Selected'
+                    "
+
+                    [class.status-rejected]="
+                      application.status === 'Rejected'
+                    "
+                  >
+
+                    {{ application.status }}
+
+                  </span>
+
+                </td>
+
+
+
+                <!-- ============================= -->
+                <!-- ACTION BUTTONS -->
+                <!-- ============================= -->
+
+                <td class="text-end">
+
+
+                  <!-- VIEW -->
+
+                  <a
+                    [routerLink]="[
+                      '/applications/view',
+                      application.id
+                    ]"
+
+                    class="action-btn"
+
+                    title="View Application"
+                  >
+
+                    <i class="bi bi-eye"></i>
+
+                  </a>
+
+
+
+                  <!-- EDIT -->
+
+                  <a
+                    [routerLink]="[
+                      '/applications/edit',
+                      application.id
+                    ]"
+
+                    class="action-btn"
+
+                    title="Edit Application"
+                  >
+
+                    <i class="bi bi-pencil"></i>
+
+                  </a>
+
+
+
+                  <!-- DELETE -->
+
+                  <button
+                    type="button"
+
+                    class="action-btn delete-btn"
+
+                    title="Delete Application"
+
+                    (click)="
+                      deleteApplication(application.id)
+                    "
+                  >
+
+                    <i class="bi bi-trash"></i>
+
+                  </button>
+
+
+                </td>
+
+              </tr>
+
+            }
+
+
+
+            <!-- ============================= -->
+            <!-- NO RESULTS -->
+            <!-- ============================= -->
+
+            @if (filteredApplications.length === 0) {
+
+              <tr>
+
+                <td
+                  colspan="6"
+                  class="text-center py-5"
+                >
+
+
+                  <i
+                    class="bi bi-inbox fs-1 text-muted"
+                  ></i>
+
+
+                  <p
+                    class="text-muted mt-2 mb-0"
+                  >
+
+                    No applications found.
+
+                  </p>
+
+
+                  <!-- ADD APPLICATION -->
+
+                  <a
+                    routerLink="/applications/add"
+
+                    class="btn btn-primary mt-3"
+                  >
+
+                    <i class="bi bi-plus-lg me-2"></i>
+
+                    Add Application
+
+                  </a>
+
+
+                </td>
+
+              </tr>
+
+            }
+
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

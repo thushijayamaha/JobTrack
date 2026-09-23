@@ -1,0 +1,222 @@
+<app-navbar></app-navbar>
+
+<div class="settings-layout">
+
+  <app-sidebar></app-sidebar>
+
+  <main class="settings-content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+
+      <div>
+        <h2>Settings</h2>
+        <p>Manage your JobTrack preferences</p>
+      </div>
+
+    </div>
+
+    <!-- LOADING -->
+    @if (loading) {
+
+      <div class="loading-box">
+
+        <div
+          class="spinner-border"
+          role="status"
+        ></div>
+
+        <p>Loading settings...</p>
+
+      </div>
+
+    }
+
+    <!-- ERROR -->
+    @if (errorMessage) {
+
+      <div class="alert alert-danger">
+
+        <i class="bi bi-exclamation-circle-fill"></i>
+
+        {{ errorMessage }}
+
+      </div>
+
+    }
+
+    <!-- SUCCESS -->
+    @if (successMessage) {
+
+      <div class="alert alert-success">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        {{ successMessage }}
+
+      </div>
+
+    }
+
+    @if (!loading) {
+
+      <div class="settings-card">
+
+        <!-- NOTIFICATIONS -->
+        <div class="settings-section">
+
+          <div class="section-heading">
+
+            <div class="section-icon">
+              <i class="bi bi-bell-fill"></i>
+            </div>
+
+            <div>
+              <h4>Notifications</h4>
+              <p>
+                Manage how JobTrack keeps you updated.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- EMAIL NOTIFICATIONS -->
+          <div class="setting-item">
+
+            <div class="setting-info">
+
+              <h5>Email Notifications</h5>
+
+              <p>
+                Receive important JobTrack notifications
+                by email.
+              </p>
+
+            </div>
+
+            <label class="switch">
+
+              <input
+                type="checkbox"
+                [(ngModel)]="emailNotifications"
+              >
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+          <!-- INTERVIEW REMINDERS -->
+          <div class="setting-item">
+
+            <div class="setting-info">
+
+              <h5>Interview Reminders</h5>
+
+              <p>
+                Receive reminders about upcoming interviews.
+              </p>
+
+            </div>
+
+            <label class="switch">
+
+              <input
+                type="checkbox"
+                [(ngModel)]="interviewReminders"
+              >
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+        <!-- APPEARANCE -->
+        <div class="settings-section">
+
+          <div class="section-heading">
+
+            <div class="section-icon">
+              <i class="bi bi-palette-fill"></i>
+            </div>
+
+            <div>
+              <h4>Appearance</h4>
+
+              <p>
+                Customize the appearance of JobTrack.
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- DARK MODE -->
+          <div class="setting-item">
+
+            <div class="setting-info">
+
+              <h5>Dark Mode</h5>
+
+              <p>
+                Use a darker interface for comfortable viewing.
+              </p>
+
+            </div>
+
+            <label class="switch">
+
+              <input
+                type="checkbox"
+                [(ngModel)]="darkMode"
+              >
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+        <!-- SAVE -->
+        <div class="settings-actions">
+
+          <button
+            type="button"
+            class="save-btn"
+            (click)="saveSettings()"
+            [disabled]="saving"
+          >
+
+            @if (saving) {
+
+              <span
+                class="spinner-border spinner-border-sm"
+              ></span>
+
+              Saving...
+
+            } @else {
+
+              <i class="bi bi-check-lg"></i>
+
+              Save Settings
+
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+
+    }
+
+  </main>
+
+</div>

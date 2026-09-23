@@ -1,0 +1,272 @@
+<div class="form-page">
+
+  <div class="form-card">
+
+    <!-- Header -->
+    <div class="form-header">
+
+      <div>
+        <h2>Add Application</h2>
+
+        <p class="text-muted mb-0">
+          Add a new job or internship application
+        </p>
+      </div>
+
+      <a
+        routerLink="/applications"
+        class="btn btn-light"
+      >
+        <i class="bi bi-arrow-left me-2"></i>
+        Back
+      </a>
+
+    </div>
+
+
+    <!-- Form -->
+    <form
+      [formGroup]="applicationForm"
+      (ngSubmit)="onSubmit()"
+    >
+
+      <div class="row g-4">
+
+        <!-- Company Name -->
+        <div class="col-md-6">
+
+          <label class="form-label">
+            Company Name *
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. Dialog Axiata"
+            formControlName="companyName"
+          />
+
+          @if (
+            applicationForm.get('companyName')?.touched &&
+            applicationForm.get('companyName')?.invalid
+          ) {
+            <div class="text-danger small mt-1">
+              Company name is required.
+            </div>
+          }
+
+        </div>
+
+
+        <!-- Job Title -->
+        <div class="col-md-6">
+
+          <label class="form-label">
+            Job Position *
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. Frontend Developer Intern"
+            formControlName="jobTitle"
+          />
+
+          @if (
+            applicationForm.get('jobTitle')?.touched &&
+            applicationForm.get('jobTitle')?.invalid
+          ) {
+            <div class="text-danger small mt-1">
+              Job position is required.
+            </div>
+          }
+
+        </div>
+
+
+        <!-- Job Type -->
+        <div class="col-md-6">
+
+          <label class="form-label">
+            Job Type *
+          </label>
+
+          <select
+            class="form-select"
+            formControlName="jobType"
+          >
+
+            <option value="Internship">
+              Internship
+            </option>
+
+            <option value="Full Time">
+              Full Time
+            </option>
+
+            <option value="Part Time">
+              Part Time
+            </option>
+
+            <option value="Contract">
+              Contract
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- Application Date -->
+        <div class="col-md-6">
+
+          <label class="form-label">
+            Application Date *
+          </label>
+
+          <input
+            type="date"
+            class="form-control"
+            formControlName="applicationDate"
+          />
+
+          @if (
+            applicationForm.get('applicationDate')?.touched &&
+            applicationForm.get('applicationDate')?.invalid
+          ) {
+            <div class="text-danger small mt-1">
+              Application date is required.
+            </div>
+          }
+
+        </div>
+
+
+        <!-- Status -->
+        <div class="col-md-6">
+
+          <label class="form-label">
+            Status *
+          </label>
+
+          <select
+            class="form-select"
+            formControlName="status"
+          >
+
+            <option value="Applied">
+              Applied
+            </option>
+
+            <option value="Interview">
+              Interview
+            </option>
+
+            <option value="Selected">
+              Selected
+            </option>
+
+            <option value="Rejected">
+              Rejected
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- Location -->
+        <div class="col-md-6">
+
+          <label class="form-label">
+            Location
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. Colombo / Remote"
+            formControlName="location"
+          />
+
+        </div>
+
+
+        <!-- Job URL -->
+        <div class="col-md-6">
+
+          <label class="form-label">
+            Job URL
+          </label>
+
+          <input
+            type="url"
+            class="form-control"
+            placeholder="https://company.com/jobs"
+            formControlName="jobUrl"
+          />
+
+        </div>
+
+
+        <!-- Salary -->
+        <div class="col-md-6">
+
+          <label class="form-label">
+            Salary / Stipend
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. Rs. 30,000"
+            formControlName="salary"
+          />
+
+        </div>
+
+
+        <!-- Notes -->
+        <div class="col-12">
+
+          <label class="form-label">
+            Notes
+          </label>
+
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="Add interview details, contact information, notes..."
+            formControlName="notes"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <!-- Buttons -->
+      <div class="form-actions">
+
+        <a
+          routerLink="/applications"
+          class="btn btn-light"
+        >
+          Cancel
+        </a>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          <i class="bi bi-check-lg me-2"></i>
+          Save Application
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

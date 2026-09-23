@@ -1,0 +1,236 @@
+<app-navbar></app-navbar>
+
+<div class="profile-layout">
+
+  <app-sidebar></app-sidebar>
+
+  <main class="profile-content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div>
+        <h2>My Profile</h2>
+        <p>Manage your personal information</p>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+    @if (loading) {
+      <div class="loading-box">
+        <div class="spinner-border" role="status"></div>
+        <p>Loading profile...</p>
+      </div>
+    }
+
+    <!-- ERROR -->
+    @if (errorMessage) {
+      <div class="alert alert-danger">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- SUCCESS -->
+    @if (successMessage) {
+      <div class="alert alert-success">
+        <i class="bi bi-check-circle-fill"></i>
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (!loading && user) {
+
+      <!-- PROFILE CARD -->
+      <div class="profile-card">
+
+        <!-- PROFILE HEADER -->
+        <div class="profile-header">
+
+          <div class="profile-avatar">
+            {{ getInitials() }}
+          </div>
+
+          <div class="profile-heading">
+
+            <h3>{{ user.name }}</h3>
+
+            <p>
+              <i class="bi bi-person-fill"></i>
+              Job Seeker
+            </p>
+
+            <span class="status-badge">
+              <i class="bi bi-circle-fill"></i>
+              Active
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- PROFILE INFORMATION -->
+        @if (!editMode) {
+
+          <div class="profile-section">
+
+            <div class="section-title">
+              <h4>Personal Information</h4>
+            </div>
+
+            <div class="info-grid">
+
+              <div class="info-item">
+                <span class="info-label">
+                  Full Name
+                </span>
+
+                <span class="info-value">
+                  {{ user.name }}
+                </span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label">
+                  Email Address
+                </span>
+
+                <span class="info-value">
+                  {{ user.email }}
+                </span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label">
+                  Account ID
+                </span>
+
+                <span class="info-value">
+                  #{{ user.id }}
+                </span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label">
+                  Account Type
+                </span>
+
+                <span class="info-value">
+                  Job Seeker
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ACTION -->
+          <div class="profile-actions">
+
+            <button
+              type="button"
+              class="edit-btn"
+              (click)="startEditing()"
+            >
+              <i class="bi bi-pencil-fill"></i>
+              Edit Profile
+            </button>
+
+          </div>
+
+        }
+
+        <!-- EDIT PROFILE -->
+        @if (editMode) {
+
+          <div class="profile-section">
+
+            <div class="section-title">
+              <h4>Edit Profile</h4>
+            </div>
+
+            <form
+              class="profile-form"
+              (ngSubmit)="saveProfile()"
+            >
+
+              <div class="form-group">
+
+                <label for="name">
+                  Full Name
+                </label>
+
+                <input
+                  id="name"
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  [(ngModel)]="name"
+                  placeholder="Enter your full name"
+                  required
+                >
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="email">
+                  Email Address
+                </label>
+
+                <input
+                  id="email"
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  [(ngModel)]="email"
+                  placeholder="Enter your email"
+                  required
+                >
+
+              </div>
+
+              <div class="edit-actions">
+
+                <button
+                  type="button"
+                  class="cancel-btn"
+                  (click)="cancelEditing()"
+                  [disabled]="saving"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  class="save-btn"
+                  [disabled]="saving"
+                >
+
+                  @if (saving) {
+                    <span
+                      class="spinner-border spinner-border-sm"
+                    ></span>
+
+                    Saving...
+                  } @else {
+                    <i class="bi bi-check-lg"></i>
+                    Save Changes
+                  }
+
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </main>
+
+</div>

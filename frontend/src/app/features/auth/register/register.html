@@ -1,0 +1,223 @@
+<div class="register-page">
+
+  <div class="register-card">
+
+    <!-- Logo & Heading -->
+    <div class="text-center mb-4">
+
+      <div class="logo-icon">
+        <i class="bi bi-briefcase-fill"></i>
+      </div>
+
+      <h2 class="fw-bold mt-3">
+        Create Account
+      </h2>
+
+      <p class="text-muted">
+        Start managing your job applications
+      </p>
+
+    </div>
+
+
+    <!-- Register Form -->
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+    >
+
+      <!-- First Name & Last Name -->
+      <div class="row">
+
+        <div class="col-md-6 mb-3">
+
+          <label for="firstName" class="form-label">
+            First Name
+          </label>
+
+          <input
+            type="text"
+            id="firstName"
+            class="form-control"
+            placeholder="First name"
+            formControlName="firstName"
+          />
+
+          @if (
+            registerForm.get('firstName')?.touched &&
+            registerForm.get('firstName')?.invalid
+          ) {
+            <div class="text-danger small mt-1">
+              First name is required.
+            </div>
+          }
+
+        </div>
+
+
+        <div class="col-md-6 mb-3">
+
+          <label for="lastName" class="form-label">
+            Last Name
+          </label>
+
+          <input
+            type="text"
+            id="lastName"
+            class="form-control"
+            placeholder="Last name"
+            formControlName="lastName"
+          />
+
+          @if (
+            registerForm.get('lastName')?.touched &&
+            registerForm.get('lastName')?.invalid
+          ) {
+            <div class="text-danger small mt-1">
+              Last name is required.
+            </div>
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- Email -->
+      <div class="mb-3">
+
+        <label for="email" class="form-label">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="Enter your email"
+          formControlName="email"
+        />
+
+        @if (
+          registerForm.get('email')?.touched &&
+          registerForm.get('email')?.invalid
+        ) {
+
+          <div class="text-danger small mt-1">
+
+            @if (registerForm.get('email')?.errors?.['required']) {
+              <span>Email is required.</span>
+            }
+
+            @if (registerForm.get('email')?.errors?.['email']) {
+              <span>Please enter a valid email address.</span>
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- Password -->
+      <div class="mb-3">
+
+        <label for="password" class="form-label">
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          placeholder="Create a password"
+          formControlName="password"
+        />
+
+        @if (
+          registerForm.get('password')?.touched &&
+          registerForm.get('password')?.invalid
+        ) {
+
+          <div class="text-danger small mt-1">
+
+            @if (registerForm.get('password')?.errors?.['required']) {
+              <span>Password is required.</span>
+            }
+
+            @if (registerForm.get('password')?.errors?.['minlength']) {
+              <span>Password must be at least 6 characters.</span>
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- Confirm Password -->
+      <div class="mb-4">
+
+        <label for="confirmPassword" class="form-label">
+          Confirm Password
+        </label>
+
+        <input
+          type="password"
+          id="confirmPassword"
+          class="form-control"
+          placeholder="Confirm your password"
+          formControlName="confirmPassword"
+        />
+
+        @if (
+          registerForm.get('confirmPassword')?.touched &&
+          registerForm.get('confirmPassword')?.invalid
+        ) {
+          <div class="text-danger small mt-1">
+            Please confirm your password.
+          </div>
+        }
+
+      </div>
+
+      @if (errorMessage) {
+        <div class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+      }
+
+
+      <!-- Register Button -->
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+      >
+        <i class="bi bi-person-plus-fill me-2"></i>
+        Create Account
+      </button>
+
+    </form>
+
+
+    <!-- Login Link -->
+    <div class="text-center mt-4">
+
+      <span class="text-muted">
+        Already have an account?
+      </span>
+
+      <a
+  routerLink="/login"
+  class="login-link ms-1"
+>
+  Sign In
+</a>
+
+    </div>
+
+  </div>
+
+</div>

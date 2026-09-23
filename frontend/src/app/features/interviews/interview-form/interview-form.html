@@ -1,0 +1,496 @@
+<app-navbar></app-navbar>
+
+<div class="interview-layout">
+
+  <!-- SIDEBAR -->
+  <app-sidebar></app-sidebar>
+
+  <!-- MAIN CONTENT -->
+  <main class="interview-content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+
+      <div>
+        <h2>
+          {{ editing ? 'Edit Interview' : 'Add Interview' }}
+        </h2>
+
+        <p>
+          {{
+            editing
+              ? 'Update your interview information.'
+              : 'Schedule and track a new job interview.'
+          }}
+        </p>
+      </div>
+
+      <a
+        routerLink="/interviews"
+        class="btn btn-outline-secondary back-btn"
+      >
+        <i class="bi bi-arrow-left"></i>
+        Back to Interviews
+      </a>
+
+    </div>
+
+
+    <!-- LOADING -->
+    @if (loading) {
+
+      <div class="loading-card">
+
+        <div
+          class="spinner-border text-primary"
+          role="status"
+        ></div>
+
+        <p>Loading interview...</p>
+
+      </div>
+
+    }
+
+    @else {
+
+      <!-- FORM CARD -->
+      <div class="form-card">
+
+        <form
+          [formGroup]="interviewForm"
+          (ngSubmit)="onSubmit()"
+        >
+
+          <!-- ============================= -->
+          <!-- APPLICATION -->
+          <!-- ============================= -->
+
+          <div class="form-section">
+
+            <div class="section-title">
+
+              <div class="section-icon">
+                <i class="bi bi-briefcase"></i>
+              </div>
+
+              <div>
+                <h5>Job Application</h5>
+
+                <p>
+                  Select the job application for this interview.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="application_id">
+                Application
+                <span>*</span>
+              </label>
+
+              <select
+                id="application_id"
+                class="form-select"
+                formControlName="application_id"
+                [class.is-invalid]="isInvalid('application_id')"
+              >
+
+                <option value="">
+                  Select an application
+                </option>
+
+                @for (
+                  application of applications;
+                  track application.id
+                ) {
+
+                  <option
+                    [value]="application.id"
+                  >
+                    {{ application.companyName }}
+                    -
+                    {{ application.jobTitle }}
+                  </option>
+
+                }
+
+              </select>
+
+              @if (isInvalid('application_id')) {
+
+                <div class="invalid-feedback">
+                  Please select an application.
+                </div>
+
+              }
+
+            </div>
+
+          </div>
+
+
+          <!-- ============================= -->
+          <!-- INTERVIEW SCHEDULE -->
+          <!-- ============================= -->
+
+          <div class="form-section">
+
+            <div class="section-title">
+
+              <div class="section-icon">
+                <i class="bi bi-calendar-event"></i>
+              </div>
+
+              <div>
+                <h5>Interview Schedule</h5>
+
+                <p>
+                  Set the date, time and interview type.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+              <!-- DATE -->
+
+              <div class="form-group">
+
+                <label for="interview_date">
+                  Interview Date
+                  <span>*</span>
+                </label>
+
+                <input
+                  id="interview_date"
+                  type="date"
+                  class="form-control"
+                  formControlName="interview_date"
+                  [class.is-invalid]="isInvalid('interview_date')"
+                />
+
+                @if (isInvalid('interview_date')) {
+
+                  <div class="invalid-feedback">
+                    Interview date is required.
+                  </div>
+
+                }
+
+              </div>
+
+
+              <!-- TIME -->
+
+              <div class="form-group">
+
+                <label for="interview_time">
+                  Interview Time
+                  <span>*</span>
+                </label>
+
+                <input
+                  id="interview_time"
+                  type="time"
+                  class="form-control"
+                  formControlName="interview_time"
+                  [class.is-invalid]="isInvalid('interview_time')"
+                />
+
+                @if (isInvalid('interview_time')) {
+
+                  <div class="invalid-feedback">
+                    Interview time is required.
+                  </div>
+
+                }
+
+              </div>
+
+            </div>
+
+
+            <!-- INTERVIEW TYPE -->
+
+            <div class="form-group">
+
+              <label>
+                Interview Type
+                <span>*</span>
+              </label>
+
+              <div class="type-options">
+
+                <label
+                  class="type-option"
+                  [class.selected]="
+                    interviewForm.get('interview_type')?.value === 'Online'
+                  "
+                >
+
+                  <input
+                    type="radio"
+                    formControlName="interview_type"
+                    value="Online"
+                  />
+
+                  <div class="type-icon">
+                    <i class="bi bi-camera-video"></i>
+                  </div>
+
+                  <div>
+                    <strong>Online</strong>
+                    <small>Video interview</small>
+                  </div>
+
+                </label>
+
+
+                <label
+                  class="type-option"
+                  [class.selected]="
+                    interviewForm.get('interview_type')?.value === 'On-site'
+                  "
+                >
+
+                  <input
+                    type="radio"
+                    formControlName="interview_type"
+                    value="On-site"
+                  />
+
+                  <div class="type-icon">
+                    <i class="bi bi-building"></i>
+                  </div>
+
+                  <div>
+                    <strong>On-site</strong>
+                    <small>At company office</small>
+                  </div>
+
+                </label>
+
+
+                <label
+                  class="type-option"
+                  [class.selected]="
+                    interviewForm.get('interview_type')?.value === 'Phone'
+                  "
+                >
+
+                  <input
+                    type="radio"
+                    formControlName="interview_type"
+                    value="Phone"
+                  />
+
+                  <div class="type-icon">
+                    <i class="bi bi-telephone"></i>
+                  </div>
+
+                  <div>
+                    <strong>Phone</strong>
+                    <small>Phone interview</small>
+                  </div>
+
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- ============================= -->
+          <!-- INTERVIEW DETAILS -->
+          <!-- ============================= -->
+
+          <div class="form-section">
+
+            <div class="section-title">
+
+              <div class="section-icon">
+                <i class="bi bi-person-badge"></i>
+              </div>
+
+              <div>
+                <h5>Interview Details</h5>
+
+                <p>
+                  Add interviewer and meeting information.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+              <!-- INTERVIEWER -->
+
+              <div class="form-group">
+
+                <label for="interviewer_name">
+                  Interviewer Name
+                </label>
+
+                <input
+                  id="interviewer_name"
+                  type="text"
+                  class="form-control"
+                  formControlName="interviewer_name"
+                  placeholder="e.g. John Smith"
+                />
+
+              </div>
+
+
+              <!-- STATUS -->
+
+              <div class="form-group">
+
+                <label for="status">
+                  Status
+                  <span>*</span>
+                </label>
+
+                <select
+                  id="status"
+                  class="form-select"
+                  formControlName="status"
+                >
+
+                  <option value="Scheduled">
+                    Scheduled
+                  </option>
+
+                  <option value="Completed">
+                    Completed
+                  </option>
+
+                  <option value="Cancelled">
+                    Cancelled
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <!-- MEETING LINK -->
+
+            <div class="form-group">
+
+              <label for="meeting_link">
+                Meeting Link
+              </label>
+
+              <input
+                id="meeting_link"
+                type="url"
+                class="form-control"
+                formControlName="meeting_link"
+                placeholder="https://meet.google.com/..."
+                [class.is-invalid]="isInvalid('meeting_link')"
+              />
+
+              <small class="form-help">
+                Add the meeting URL if this is an online interview.
+              </small>
+
+              @if (isInvalid('meeting_link')) {
+
+                <div class="invalid-feedback">
+                  Please enter a valid meeting URL.
+                </div>
+
+              }
+
+            </div>
+
+
+            <!-- NOTES -->
+
+            <div class="form-group">
+
+              <label for="notes">
+                Notes
+              </label>
+
+              <textarea
+                id="notes"
+                class="form-control"
+                formControlName="notes"
+                rows="4"
+                placeholder="Add interview notes, preparation details or anything important..."
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <!-- ============================= -->
+          <!-- FORM ACTIONS -->
+          <!-- ============================= -->
+
+          <div class="form-actions">
+
+            <a
+              routerLink="/interviews"
+              class="btn btn-light cancel-btn"
+            >
+              Cancel
+            </a>
+
+            <button
+              type="submit"
+              class="btn btn-primary save-btn"
+              [disabled]="saving"
+            >
+
+              @if (saving) {
+
+                <span
+                  class="spinner-border spinner-border-sm"
+                  aria-hidden="true"
+                ></span>
+
+                {{ editing ? 'Updating...' : 'Saving...' }}
+
+              }
+
+              @else {
+
+                <i
+                  class="bi"
+                  [class.bi-check-lg]="editing"
+                  [class.bi-plus-lg]="!editing"
+                ></i>
+
+                {{ editing ? 'Update Interview' : 'Save Interview' }}
+
+              }
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    }
+
+  </main>
+
+</div>

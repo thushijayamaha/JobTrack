@@ -1,0 +1,451 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <app-sidebar></app-sidebar>
+
+  <!-- MAIN CONTENT -->
+  <main class="dashboard-content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+
+      <div>
+        <h2>Dashboard</h2>
+        <p>Track and manage your job applications.</p>
+      </div>
+
+      <a
+        routerLink="/applications/add"
+        class="add-application-btn"
+      >
+        <i class="bi bi-plus-lg"></i>
+        Add Application
+      </a>
+
+    </div>
+
+
+    <!-- LOADING -->
+    @if (loading) {
+
+      <div class="loading-container">
+
+        <div
+          class="spinner-border"
+          role="status"
+        ></div>
+
+        <p>Loading dashboard...</p>
+
+      </div>
+
+    }
+
+    @if (!loading && errorMessage) {
+
+      <div class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+    }
+
+
+    @if (!loading) {
+
+      <!-- ============================= -->
+      <!-- STATISTICS -->
+      <!-- ============================= -->
+
+      <div class="stats-grid">
+
+        <!-- TOTAL -->
+        <div class="stat-card">
+
+          <div class="stat-icon total-icon">
+            <i class="bi bi-briefcase"></i>
+          </div>
+
+          <div class="stat-info">
+
+            <span>Total Applications</span>
+
+            <h3>
+              {{ totalApplications }}
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <!-- APPLIED -->
+        <div class="stat-card">
+
+          <div class="stat-icon applied-icon">
+            <i class="bi bi-send"></i>
+          </div>
+
+          <div class="stat-info">
+
+            <span>Applied</span>
+
+            <h3>
+              {{ appliedApplications }}
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <!-- INTERVIEW -->
+        <div class="stat-card">
+
+          <div class="stat-icon interview-icon">
+            <i class="bi bi-calendar-check"></i>
+          </div>
+
+          <div class="stat-info">
+
+            <span>Interviews</span>
+
+            <h3>
+              {{ interviewApplications }}
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <!-- SELECTED -->
+        <div class="stat-card">
+
+          <div class="stat-icon selected-icon">
+            <i class="bi bi-check-circle"></i>
+          </div>
+
+          <div class="stat-info">
+
+            <span>Selected</span>
+
+            <h3>
+              {{ selectedApplications }}
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <!-- REJECTED -->
+        <div class="stat-card">
+
+          <div class="stat-icon rejected-icon">
+            <i class="bi bi-x-circle"></i>
+          </div>
+
+          <div class="stat-info">
+
+            <span>Rejected</span>
+
+            <h3>
+              {{ rejectedApplications }}
+            </h3>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ============================= -->
+      <!-- CHART + SUMMARY -->
+      <!-- ============================= -->
+
+      <div class="dashboard-grid">
+
+
+        <!-- APPLICATION STATUS CHART -->
+        <section class="dashboard-card chart-card">
+
+          <div class="card-header">
+
+            <div>
+              <h3>Application Status</h3>
+
+              <p>
+                Overview of your current job applications.
+              </p>
+            </div>
+
+            <div class="header-icon">
+              <i class="bi bi-pie-chart"></i>
+            </div>
+
+          </div>
+
+
+          <div class="chart-container">
+
+            <canvas
+              #applicationStatusChart>
+            </canvas>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- QUICK SUMMARY -->
+        <section class="dashboard-card summary-card">
+
+          <div class="card-header">
+
+            <div>
+              <h3>Application Summary</h3>
+
+              <p>
+                Current progress of your applications.
+              </p>
+            </div>
+
+            <div class="header-icon">
+              <i class="bi bi-bar-chart"></i>
+            </div>
+
+          </div>
+
+
+          <!-- APPLIED -->
+          <div class="summary-item">
+
+            <div class="summary-left">
+
+              <span class="summary-dot applied-dot"></span>
+
+              <span>Applied</span>
+
+            </div>
+
+            <strong>
+              {{ appliedApplications }}
+            </strong>
+
+          </div>
+
+
+          <!-- INTERVIEW -->
+          <div class="summary-item">
+
+            <div class="summary-left">
+
+              <span class="summary-dot interview-dot"></span>
+
+              <span>Interview</span>
+
+            </div>
+
+            <strong>
+              {{ interviewApplications }}
+            </strong>
+
+          </div>
+
+
+          <!-- SELECTED -->
+          <div class="summary-item">
+
+            <div class="summary-left">
+
+              <span class="summary-dot selected-dot"></span>
+
+              <span>Selected</span>
+
+            </div>
+
+            <strong>
+              {{ selectedApplications }}
+            </strong>
+
+          </div>
+
+
+          <!-- REJECTED -->
+          <div class="summary-item">
+
+            <div class="summary-left">
+
+              <span class="summary-dot rejected-dot"></span>
+
+              <span>Rejected</span>
+
+            </div>
+
+            <strong>
+              {{ rejectedApplications }}
+            </strong>
+
+          </div>
+
+
+          <a
+            routerLink="/applications"
+            class="view-applications-btn"
+          >
+            View All Applications
+
+            <i class="bi bi-arrow-right"></i>
+
+          </a>
+
+        </section>
+
+      </div>
+
+
+
+      <!-- ============================= -->
+      <!-- RECENT APPLICATIONS -->
+      <!-- ============================= -->
+
+      <section class="dashboard-card recent-card">
+
+        <div class="card-header">
+
+          <div>
+
+            <h3>Recent Applications</h3>
+
+            <p>
+              Your latest job applications.
+            </p>
+
+          </div>
+
+          <a
+            routerLink="/applications"
+            class="view-all-link"
+          >
+            View All
+            <i class="bi bi-arrow-right"></i>
+          </a>
+
+        </div>
+
+
+        @if (applications.length === 0) {
+
+          <div class="empty-state">
+
+            <i class="bi bi-briefcase"></i>
+
+            <h4>No applications yet</h4>
+
+            <p>
+              Start tracking your job applications.
+            </p>
+
+            <a
+              routerLink="/applications/add"
+              class="add-application-btn"
+            >
+              <i class="bi bi-plus-lg"></i>
+              Add Application
+            </a>
+
+          </div>
+
+        }
+
+
+        @if (applications.length > 0) {
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Company</th>
+
+                  <th>Job Title</th>
+
+                  <th>Job Type</th>
+
+                  <th>Applied Date</th>
+
+                  <th>Status</th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                @for (
+                  application of applications.slice(0, 5);
+                  track application.id
+                ) {
+
+                  <tr>
+
+                    <td>
+                      <strong>
+                        {{ application.companyName }}
+                      </strong>
+                    </td>
+
+                    <td>
+                      {{ application.jobTitle }}
+                    </td>
+
+                    <td>
+                      {{ application.jobType }}
+                    </td>
+
+                    <td>
+                      {{ application.applicationDate }}
+                    </td>
+
+                    <td>
+
+                      <span
+                        class="status-badge"
+                        [class.status-applied]="application.status === 'Applied'"
+                        [class.status-interview]="application.status === 'Interview'"
+                        [class.status-selected]="application.status === 'Selected'"
+                        [class.status-rejected]="application.status === 'Rejected'"
+                      >
+                        {{ application.status }}
+                      </span>
+
+                    </td>
+
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        }
+
+      </section>
+
+    }
+
+  </main>
+
+</div>

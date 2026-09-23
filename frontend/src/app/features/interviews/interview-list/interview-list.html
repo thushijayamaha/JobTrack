@@ -1,0 +1,297 @@
+<app-navbar></app-navbar>
+
+<div class="interview-layout">
+
+  <!-- SIDEBAR -->
+  <app-sidebar></app-sidebar>
+
+  <!-- MAIN CONTENT -->
+  <main class="interview-content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+
+      <div>
+        <h2>Interviews</h2>
+
+        <p>
+          Manage and track your upcoming and completed interviews.
+        </p>
+      </div>
+
+      <a
+        routerLink="/interviews/add"
+        class="btn btn-primary add-interview-btn"
+      >
+        <i class="bi bi-plus-lg"></i>
+        Add Interview
+      </a>
+
+    </div>
+
+
+    <!-- LOADING -->
+    @if (loading) {
+
+      <div class="loading-card">
+
+        <div
+          class="spinner-border text-primary"
+          role="status"
+        ></div>
+
+        <p>Loading interviews...</p>
+
+      </div>
+
+    }
+
+
+    <!-- EMPTY STATE -->
+    @else if (interviews.length === 0) {
+
+      <div class="empty-card">
+
+        <div class="empty-icon">
+          <i class="bi bi-calendar2-x"></i>
+        </div>
+
+        <h4>No Interviews Yet</h4>
+
+        <p>
+          You haven't added any interviews yet.
+          Start tracking your interview schedule.
+        </p>
+
+        <a
+          routerLink="/interviews/add"
+          class="btn btn-primary"
+        >
+          <i class="bi bi-plus-lg"></i>
+          Add Your First Interview
+        </a>
+
+      </div>
+
+    }
+
+
+    <!-- INTERVIEW LIST -->
+    @else {
+
+      <div class="interview-grid">
+
+        @for (interview of interviews; track interview.id) {
+
+          <div class="interview-card">
+
+            <!-- CARD HEADER -->
+            <div class="card-header-custom">
+
+              <div class="company-section">
+
+                <div class="company-icon">
+                  {{ interview.application?.company_name?.charAt(0) || '?' }}
+                </div>
+
+                <div>
+
+                  <h5>
+                    {{ interview.application?.job_title || 'Job Position' }}
+                  </h5>
+
+                  <p>
+                    {{ interview.application?.company_name || 'Company' }}
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <!-- STATUS -->
+              <span
+                class="status-badge"
+                [class]="getStatusClass(interview.status)"
+              >
+                {{ interview.status }}
+              </span>
+
+            </div>
+
+
+            <!-- INTERVIEW DETAILS -->
+            <div class="interview-details">
+
+              <!-- DATE -->
+              <div class="detail-item">
+
+                <div class="detail-icon">
+                  <i class="bi bi-calendar-event"></i>
+                </div>
+
+                <div>
+                  <span class="detail-label">
+                    Date
+                  </span>
+
+                  <strong>
+                    {{ interview.interview_date | date:'MMM d, y' }}
+                  </strong>
+                </div>
+
+              </div>
+
+
+              <!-- TIME -->
+              <div class="detail-item">
+
+                <div class="detail-icon">
+                  <i class="bi bi-clock"></i>
+                </div>
+
+                <div>
+                  <span class="detail-label">
+                    Time
+                  </span>
+
+                  <strong>
+                    {{ interview.interview_time }}
+                  </strong>
+                </div>
+
+              </div>
+
+
+              <!-- TYPE -->
+              <div class="detail-item">
+
+                <div class="detail-icon">
+
+                  <i
+                    class="bi"
+                    [class]="getTypeIcon(interview.interview_type)"
+                  ></i>
+
+                </div>
+
+                <div>
+
+                  <span class="detail-label">
+                    Interview Type
+                  </span>
+
+                  <strong>
+                    {{ interview.interview_type }}
+                  </strong>
+
+                </div>
+
+              </div>
+
+
+              <!-- INTERVIEWER -->
+              @if (interview.interviewer_name) {
+
+                <div class="detail-item">
+
+                  <div class="detail-icon">
+                    <i class="bi bi-person"></i>
+                  </div>
+
+                  <div>
+
+                    <span class="detail-label">
+                      Interviewer
+                    </span>
+
+                    <strong>
+                      {{ interview.interviewer_name }}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+              }
+
+            </div>
+
+
+            <!-- MEETING LINK -->
+            @if (interview.meeting_link) {
+
+              <div class="meeting-link">
+
+                <i class="bi bi-link-45deg"></i>
+
+                <a
+                  [href]="interview.meeting_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Join Meeting
+                </a>
+
+              </div>
+
+            }
+
+
+            <!-- NOTES -->
+            @if (interview.notes) {
+
+              <div class="interview-notes">
+
+                <i class="bi bi-sticky"></i>
+
+                <span>
+                  {{ interview.notes }}
+                </span>
+
+              </div>
+
+            }
+
+
+            <!-- ACTIONS -->
+            <div class="card-actions">
+
+              <a
+                [routerLink]="['/interviews/view', interview.id]"
+                class="btn btn-outline-primary"
+              >
+                <i class="bi bi-eye"></i>
+                View
+              </a>
+
+              <a
+                [routerLink]="['/interviews/edit', interview.id]"
+                class="btn btn-outline-secondary"
+              >
+                <i class="bi bi-pencil"></i>
+                Edit
+              </a>
+
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="deleteInterview(interview.id)"
+              >
+                <i class="bi bi-trash"></i>
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </main>
+
+</div>

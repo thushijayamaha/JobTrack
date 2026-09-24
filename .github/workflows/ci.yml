@@ -104,5 +104,10 @@ jobs:
           docker build -t $ECR_REGISTRY/jobtrack-frontend:$IMAGE_TAG ./frontend
           docker push $ECR_REGISTRY/jobtrack-frontend:$IMAGE_TAG
 
-      - name: Build backend Docker image
-        run: docker build -t jobtrack-backend ./backend
+      - name: Build and push backend Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/jobtrack-backend:$IMAGE_TAG ./backend
+          docker push $ECR_REGISTRY/jobtrack-backend:$IMAGE_TAG

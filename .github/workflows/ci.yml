@@ -92,6 +92,10 @@ jobs:
       - name: Verify AWS authentication
         run: aws sts get-caller-identity
 
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
       - name: Build frontend Docker image
         run: docker build -t jobtrack-frontend ./frontend
 

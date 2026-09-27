@@ -24,3 +24,5 @@ describe('ApplicationDetails', () => {
     expect(component).toBeTruthy();
   });
 });
+
+

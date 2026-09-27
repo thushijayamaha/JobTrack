@@ -60,7 +60,7 @@ interface ApplicationResponse {
 export class ApplicationService {
 
   private apiUrl =
-    'http://127.0.0.1:8000/api/applications';
+    'http://54.147.55.197/api/applications';
 
   constructor(
     private http: HttpClient
@@ -237,3 +237,4 @@ export class ApplicationService {
     return this.http.get(`${this.apiUrl}/export/csv`, { responseType: 'blob' });
   }
 }
+

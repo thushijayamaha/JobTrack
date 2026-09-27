@@ -23,3 +23,5 @@ describe('ApplicationList', () => {
     expect(component).toBeTruthy();
   });
 });
+
+

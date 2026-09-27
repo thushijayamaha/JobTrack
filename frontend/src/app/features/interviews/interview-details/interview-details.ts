@@ -203,3 +203,4 @@ export class InterviewDetails implements OnInit {
   }
 
 }
+

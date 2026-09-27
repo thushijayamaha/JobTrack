@@ -20,7 +20,7 @@ interface SettingsResponse {
 export class SettingsService {
 
   private readonly apiUrl =
-    'http://127.0.0.1:8000/api/auth/settings';
+    'http://54.147.55.197/api/auth/settings';
 
   constructor(
     private http: HttpClient
@@ -42,3 +42,4 @@ export class SettingsService {
     );
   }
 }
+

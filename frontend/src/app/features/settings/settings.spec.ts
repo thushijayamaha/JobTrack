@@ -33,3 +33,5 @@ describe('Settings', () => {
     expect(localStorage.getItem('jobtrack_theme')).toBe('dark');
   });
 });
+
+

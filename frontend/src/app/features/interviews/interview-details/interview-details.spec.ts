@@ -43,3 +43,5 @@ describe('InterviewDetails', () => {
     expect(component).toBeTruthy();
   });
 });
+
+

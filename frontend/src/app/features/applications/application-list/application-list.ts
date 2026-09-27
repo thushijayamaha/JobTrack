@@ -171,3 +171,4 @@ export class ApplicationList implements OnInit {
   }
 
 }
+

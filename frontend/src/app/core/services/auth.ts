@@ -14,7 +14,7 @@ interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly apiUrl = 'http://127.0.0.1:8000/api/auth';
+  private readonly apiUrl = 'http://54.147.55.197/api/auth';
   private readonly tokenKey = 'jobtrack_token';
 
   constructor(private http: HttpClient) {}
@@ -89,3 +89,5 @@ export class AuthService {
     localStorage.setItem('jobtrack_user', JSON.stringify(response.user));
   }
 }
+
+

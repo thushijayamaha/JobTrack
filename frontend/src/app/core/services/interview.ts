@@ -21,7 +21,7 @@ interface InterviewResponse {
 export class InterviewService {
 
   private readonly apiUrl =
-    'http://127.0.0.1:8000/api/interviews';
+    'http://54.147.55.197/api/interviews';
 
   constructor(private http: HttpClient) {}
 
@@ -88,3 +88,4 @@ export class InterviewService {
     );
   }
 }
+

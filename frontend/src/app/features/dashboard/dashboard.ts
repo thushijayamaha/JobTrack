@@ -231,3 +231,4 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 }
+

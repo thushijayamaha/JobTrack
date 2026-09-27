@@ -22,7 +22,7 @@ interface ProfileResponse {
 })
 export class ProfileService {
 
-  private apiUrl = 'http://127.0.0.1:8000/api/auth/profile';
+  private apiUrl = 'http://54.147.55.197/api/auth/profile';
 
   constructor(private http: HttpClient) {}
 
@@ -40,3 +40,4 @@ export class ProfileService {
     });
   }
 }
+
